@@ -1,0 +1,31 @@
+{
+  "name": "couch-statsd-backend",
+  "version": "0.1.0",
+  "description": "Backend for statsd to emit stats to couchdb",
+  "main": "backends/couch.js",
+  "dependencies": {
+    "nano": ">=6.0.2"
+  },
+  "optionalDependencies": {
+    "cuid": ">=1.2.4",
+    "node-uuid": ">=1.4.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/sysadminmike/couch-statsd-backend.git"
+  },
+  "keywords": [
+    "statsd",
+    "couchdb",
+    "backend"
+  ],
+  "author": "Mike Wolman <mike@wolman.co.uk>",
+  "license": "BSD",
+  "bugs": {
+    "url": "https://github.com/sysadminmike/couch-statsd-backend/issues"
+  },
+  "homepage": "https://github.com/sysadminmike/couch-statsd-backend"
+}
