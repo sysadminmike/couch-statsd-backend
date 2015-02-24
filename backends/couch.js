@@ -22,7 +22,7 @@ var flush_stats = function (timestamp, metrics) {
         m['type'] = 'counter';
         m['name'] = myname;
         m['count'] = metrics.counters[myname];
-        if( typeof(metrics.counter_rates[myname]) === 'object' ) {
+        if( typeof(metrics.counter_rates[myname]) == 'number' ) {
 	        m['rate'] = metrics.counter_rates[myname];
 	}
         if (debug) console.log(JSON.stringify(m));
