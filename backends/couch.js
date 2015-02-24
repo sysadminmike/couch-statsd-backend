@@ -9,8 +9,8 @@ var couchdb = false;
 var flush_stats = function (timestamp, metrics) {
 
   console.log('Flushing stats at', new Date(timestamp * 1000).toString());
-  console.log(JSON.stringify(metrics.counters['statsd.packets_received']));
-  console.log(JSON.stringify(metrics.counter_rates['statsd.packets_received']));
+//  console.log(JSON.stringify(metrics.counters['statsd.packets_received']));
+//  console.log(JSON.stringify(metrics.counter_rates['statsd.packets_received']));
 
   var docs = [];
 

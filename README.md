@@ -71,7 +71,42 @@ Note: The uuid_generator function is passed 'num' which is incremented each call
 * Sets
 
 ###Counters & Counter Rates
-TODO: Notes on how these are rolled up - add example couch docs
+
+Counters and counter rates are combined into one doc - this can be easily 
+modified by un-commenting the a few lines.
+
+    echo "myservice.mycount:67|c" | nc -n -w 1 -u 192.168.3.22 8125 
+
+Will add a doc like:
+
+    {
+       "_id": "f83a62b3456f4c2451cb7a166100f3e8",
+       "_rev": "1-d68546bae9169fa4b4a72b3ffe4167b9",
+       "type": "counter",
+       "name": "myservice.mycount",
+       "count": 67,
+       "rate": 6.7,
+       "ts": 1424818189
+    }
+
+
+If two counts of the same name within same flush period
+
+    echo "myservice.mycount:20|c" | nc -n -w 1 -u 192.168.3.22 8125 
+    echo "myservice.mycount:30|c" | nc -n -w 1 -u 192.168.3.22 8125 
+
+Will add a doc like:
+
+    {
+       "_id": "f83a62b3456f4c2451cb7a1661010a10",
+       "_rev": "1-89dc6493c2418acb351e9767e6653c65",
+       "type": "counter",
+       "name": "myservice.mycount",
+       "count": 50,
+       "rate": 5,
+       "ts": 1424818219
+    }
+
 
 ###Gauges
 TODO: Add example couch docs

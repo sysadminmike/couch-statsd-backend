@@ -1,4 +1,5 @@
 0.1.?	Add CHANGES - not published on npm
+        Fix test for adding rate to counters doc
 -----
 Below published to npm
 0.1.1	Update to config and readme
