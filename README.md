@@ -58,7 +58,8 @@ If custom is chosen then uuid_generator must also be set eg:
       , id_generator: "custom"
       , uuid_generator: function(num){ return Math.round(new Date().getTime() / 1000) + '-' + num; }  
 
-Note: The uuid_generator function is passed 'num' which is incremented each call within a flush, this is reset on each flush.
+Note: The uuid_generator function is passed 'num' which is incremented each 
+call within a flush, this is reset on each flush.
 
 
 ##Supported Metrics
@@ -73,7 +74,8 @@ Note: The uuid_generator function is passed 'num' which is incremented each call
 ###Counters & Counter Rates
 
 Counters and counter rates are combined into one doc - this can be easily 
-modified by un-commenting the a few lines.
+modified to create a separate docs for the counter_rates by un-commenting 
+the a few lines.
 
     echo "myservice.mycount:67|c" | nc -n -w 1 -u 192.168.3.22 8125 
 
