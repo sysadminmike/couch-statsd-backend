@@ -90,7 +90,7 @@ var flush_stats = function (timestamp, metrics) {
 	var m = { };
         m['type'] = 'set';
         m['name'] = myname;
-        m['set'] = metrics.sets[myname];
+        m['set'] = metrics.sets.store[myname];
         if (debug) console.log(JSON.stringify(m));
  	docs.push(m);
   }

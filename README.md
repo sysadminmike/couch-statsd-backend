@@ -111,12 +111,38 @@ Will add a doc like:
 
 
 ###Gauges
-TODO: Add example couch docs
+
+    echo "myservice.mygauge:42|g" | nc -n -w 1 -u 192.168.3.22 8125 
+
+Will add a doc like:
+
+    {
+       "_id": "f83a62b3456f4c2451cb7a1661012b57",
+       "_rev": "1-390bc981b63e2ca16d2ad42c042f9c1b",
+       "type": "gauges",
+       "name": "myservice.mygauge",
+       "value": 42,
+       "ts": 1424819100
+    }
 
 ###Timers & Timer Data
 TODO: Notes on how these are rolled up - add example couch docs
 
-###Sets
-TODO: Add example couch docs
 
+###Sets
+
+    echo "myservice.myset:129|s" | nc -n -w 1 -u 192.168.3.22 8125 
+
+Will add a doc like:
+
+    {
+       "_id": "f83a62b3456f4c2451cb7a16617f1d84",
+       "_rev": "1-07926b51ef9b5a163a9bde8f3635223c",
+       "type": "set",
+       "name": "myservice.myset",
+       "set": {
+           "129": "129"
+       },
+       "ts": 1424819898
+    }
 
