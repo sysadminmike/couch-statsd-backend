@@ -1,7 +1,7 @@
 # couch-statsd-backend
 
 Backend for [StatsD](https://github.com/etsy/statsd), which
-publishes stats to CouchDB (http://http://couchdb.apache.org/)
+publishes stats to [CouchDB](http://http://couchdb.apache.org/)
 
 ## Installation
 
