@@ -1,7 +1,10 @@
 0.1.?   Need to add timer metrics examples to readme
 -----
 Below published to npm
-0.1.2	Add CHANGES - not published on npm
+0.1.3   Remove s from gauge type
+        Config example update
+        Readme updates
+0.1.2	Add CHANGES 
         Fix test for adding rate to counters doc
 	Clear up sets docs 
 0.1.1	Update to config and readme
