@@ -121,7 +121,7 @@ Will add a doc like:
     {
        "_id": "f83a62b3456f4c2451cb7a1661012b57",
        "_rev": "1-390bc981b63e2ca16d2ad42c042f9c1b",
-       "type": "gauges",
+       "type": "gauge",
        "name": "myservice.mygauge",
        "value": 42,
        "ts": 1424819100
@@ -148,7 +148,7 @@ Will add a doc like:
        "ts": 1424819898
     }
 
-*I am not sure if the set stuff is correct?
+*I am not sure if the set data structure is correct?
 
 
 ##Notes/Future Changes
