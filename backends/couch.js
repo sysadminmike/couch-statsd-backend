@@ -46,7 +46,7 @@ var flush_stats = function (timestamp, metrics) {
   for(var myname in metrics.gauges) {
 	if (myname == 'statsd.timestamp_lag' && metrics.gauges[myname] == '0') continue; 
 	var m = { };
-        m['type'] = 'gauges';
+        m['type'] = 'gauge';
         m['name'] = myname;
         m['value'] = metrics.gauges[myname];
         if (debug) console.log(JSON.stringify(m));

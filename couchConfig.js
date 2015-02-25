@@ -20,5 +20,5 @@
 //only needed for 'custom'
 //, uuid_generator: function(num){ return Math.round(new Date().getTime() / 1000) + '-' + num; }  
 
-, backends: [ "./backends/console" ]
+, backends: [ "./backends/couch" ]
 }
