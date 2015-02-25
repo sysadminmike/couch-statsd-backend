@@ -5,6 +5,8 @@ publishes stats to CouchDB (http://http://couchdb.apache.org/)
 
 ## Installation
 
+Within your statsd install:
+
     npm install couch-statsd-backend
 
 
