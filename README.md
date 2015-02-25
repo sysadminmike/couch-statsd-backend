@@ -131,7 +131,7 @@ Will add a doc like:
 TODO: Notes on how these are rolled up - add example couch docs
 
 
-###Sets
+###Sets 
 
     echo "myservice.myset:129|s" | nc -n -w 1 -u 192.168.3.22 8125 
 
@@ -147,6 +147,9 @@ Will add a doc like:
        },
        "ts": 1424819898
     }
+
+*I am not sure if the set stuff is correct?
+
 
 ##Notes/Future Changes
 A test db with snappy compression of 2 million docs consumed 0.5Gb of space.  
