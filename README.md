@@ -29,7 +29,7 @@ publishes stats to CouchDB (http://http://couchdb.apache.org/)
 	, couchdb: 'aatest' 
 
 
-	, backends: [ "./backends/console" ]
+	, backends: [ "./backends/couchdb" ]
 
 
 
