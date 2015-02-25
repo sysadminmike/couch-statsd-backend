@@ -148,3 +148,31 @@ Will add a doc like:
        "ts": 1424819898
     }
 
+##Notes/Future Changes
+A test db with snappy compression of 2 million docs consumed 0.5Gb of space.  
+
+I suspect having the full field names in each document increases the storage requiremnts so may be better to save the metric smaller field names for example of a 'counter' type:
+
+
+    {
+       "_id": "f83a62b3456f4c2451cb7a1661010a10",
+       "_rev": "1-89dc6493c2418acb351e9767e6653c65",
+       "t": "c",
+       "n": "myservice.mycount",
+       "c": 50,
+       "r": 5,
+       "ts": 1424818219
+    }
+
+where:
+
+    t = type  (where c = counter, g = gauge, t = timer and s = set)
+    n = name
+    r = rate
+    
+It may even be worth encoding the 'type' within the '_id' ?
+
+
+Also on testing i did hit issues when adding more that 20k documents every 3 seconds - not 100% sure where the bottle neck was.
+Need to look at adding some form of way to split up the docs in post_docs bulk post into smaller batches and then send each batch off to a different couchdb server in a round robin fasion so each couchdb doesnt need to handle all metrics from a flush - this may not be needed with couch 2.0 clustering stuff :).
+Breaking up the bulks inserts of 20k docs may be sensible even when submitting to a single server.
