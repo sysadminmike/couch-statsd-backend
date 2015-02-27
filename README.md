@@ -76,12 +76,9 @@ call within a flush, this is reset on each flush.
 
 ###Bulking
 
-bulk_size
-Number of docs to submit in per bulk request. 
-To disable bulking set this to 0.
+bulk_size: Number of docs to submit per bulk request. To disable bulking set this to 0.
 
-bulk_wait 
-Time to wait (ms) between sending each bulk of docs for a flush to couch.
+bulk_wait: Time to wait (ms) between sending each bulk of docs for a flush to couch.
 Be careful with this if total time to insert all docs per flush > time period of flush then 
 docs to be posted will just keep growing.  
 
