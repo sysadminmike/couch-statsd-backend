@@ -264,6 +264,7 @@ where:
 It may even be worth encoding the 'type' within the '_id' ?
 
 
-Also on testing i did hit issues when adding more that 20k documents every 3 seconds - not 100% sure where the bottle neck was.
+Also on testing i did hit issues when adding more that 20k documents every 3 seconds (before i added the bulk stuff so need to retest)
+- not 100% sure where the bottle neck was.
 Look at sending each bulk batch off to a different couchdb server in a round robin fasion so each couchdb doesnt need to handle all 
 metrics from a single flush - this may not be needed with couch 2.0 clustering stuff :). 
