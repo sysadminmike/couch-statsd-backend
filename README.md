@@ -244,7 +244,7 @@ Will add a doc like:
 ##Notes/Future Changes
 A test db with snappy compression of 2 million docs consumed 0.5Gb of space.  
 
-I suspect having the full field names in each document increases the storage requiremnts so may be better to save the metric smaller field names for example of a 'counter' type:
+I suspect having the full field names in each document increases the storage requirements so may be better to save the metric field names as single letters for example for a 'counter' type:
 
 
     {
@@ -261,6 +261,7 @@ where:
 
     t = type  (where c = counter, g = gauge, t = timer and s = set)
     n = name
+    c = count
     r = rate
     
 It may even be worth encoding the 'type' within the '_id' ?
