@@ -1,17 +1,27 @@
 0.1.?   
-        Added timer metrics examples and better config example
-        Break bulk sends to couch into chunks,  
-        More config nobs: bulk_size, bulk_wait
-        Add bulk info to readme
-        Fix for default id generator to be couch not cuid
 
 -----
 Below published to npm
-0.1.3   Remove s from gauge type
-        Config example update
-        Readme updates
-0.1.2	Add CHANGES 
-        Fix test for adding rate to counters doc
-	Clear up sets docs 
-0.1.1	Update to config and readme
-0.1.0	Initial commit.
+
+0.1.4
+Added timer metrics examples and better config example
+Break bulk sends to couch into chunks,  
+More config nobs: bulk_size, bulk_wait
+Add bulk info to readme
+Fix for default id generator to be couch not cuid
+
+0.1.3   
+Remove s from gauge type
+Config example update
+Readme updates
+
+0.1.2	
+Add CHANGES 
+Fix test for adding rate to counters doc
+Clear up sets docs 
+
+0.1.1	
+Update to config and readme
+
+0.1.0	
+Initial commit.
