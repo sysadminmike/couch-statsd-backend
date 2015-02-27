@@ -1,6 +1,6 @@
 {
   "name": "couch-statsd-backend",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Backend for statsd to emit stats to couchdb",
   "main": "backends/couch.js",
   "dependencies": {

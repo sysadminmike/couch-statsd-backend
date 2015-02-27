@@ -156,7 +156,6 @@ var post_docs = function(docs,uuids,timestamp,chunk_count) {
 	     }
 	  });
 	  if(docs.length > 0){
-console.log('Bulk wait:' + bulk_wait);
 		setTimeout( function(){ post_docs(docs,uuids,timestamp,chunk_count); }, bulk_wait );
 	  }
 
@@ -241,7 +240,7 @@ exports.init = function(startupTime, config, events) {
   }else{
 	  bulk_size = config.bulk_size || 2500;
 	  bulk_wait = config.bulk_wait || 50;
-          console.log('bulk_size: ' + bulk_wait);
+          console.log('bulk_size: ' + bulk_size);
           console.log('bulk_wait: ' + bulk_wait);
   }
 

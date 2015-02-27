@@ -3,6 +3,9 @@
 -----
 Below published to npm
 
+0.1.5
+Minor fix and clearup to console log.
+
 0.1.4
 Added timer metrics examples and better config example
 Break bulk sends to couch into chunks,  
