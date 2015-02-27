@@ -1,12 +1,15 @@
 {
-  port: 8125
 
+  port: 8125
 ,deleteIdleStats: true
 
-, couchhost: '192.168.3.21'
-, couchdb: 'exampledb'
+, couchhost: '192.168.3.21'   
+, couchdb: 'abtest'
+//, debug: true
 
 //all below are optional
+//,bulk_size: 2500      // (0 to disable)
+//,bulk_wait: 50
 
 //, id_prefix: "c0-"
 //, id_prefix: process.pid
@@ -21,4 +24,5 @@
 //, uuid_generator: function(num){ return Math.round(new Date().getTime() / 1000) + '-' + num; }  
 
 , backends: [ "./backends/couch" ]
+
 }

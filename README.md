@@ -13,28 +13,38 @@ Within your statsd install:
 ## Configuration
 
 
+	{
 
-	  ,deleteIdleStats: true  
+	    port: 8125
 
-	//, id_prefix: "c0-"
-	//, id_prefix: process.pid + '-';
-	//, id_generator: "couch" //default - no need to install anything more
-	//, id_generator: "cuid"
-	//, id_generator: "node-uuid-v1"
-	//, id_generator: "node-uuid-v4"
+	    ,deleteIdleStats: true
 
-
-	//, debug: false 
-
-	, couchhost: '192.168.3.21'   //default: localhost
-	//, couchport: '5984'
-	, couchdb: 'aatest' 
+	    //, couchhost: '192.168.3.21'    //default: localhost
+	    //, couchport: '5984'            //default: 5984
+	    , couchdb: 'abtest'
 
 
-	, backends: [ "./backends/couchdb" ]
+	    //all below are optional
+	    //, debug: true
 
+	    //,bulk_size: 2500      // (0 to disable)
+	    //,bulk_wait: 50
 
+	    //, id_prefix: "c0-"
+	    //, id_prefix: process.pid
 
+	    //choose just one
+	    //, id_generator: "couch"
+	    //, id_generator: "cuid"
+	    //, id_generator: "node-uuid-v1"
+	    //, id_generator: "node-uuid-v4"
+	    //, id_generator: "custom"
+	    //only needed for 'custom'
+	    //, uuid_generator: function(num){ return Math.round(new Date().getTime() / 1000) + '-' + num; }
+
+	      , backends: [ "./backends/couch" ]
+
+	}
 
 
 ### Doc _id notes
@@ -62,6 +72,22 @@ If custom is chosen then uuid_generator must also be set eg:
 
 Note: The uuid_generator function is passed 'num' which is incremented each 
 call within a flush, this is reset on each flush.
+
+
+###Bulking
+
+bulk_size
+Number of docs to submit in per bulk request. 
+To disable bulking set this to 0.
+
+bulk_wait 
+Time to wait (ms) between sending each bulk of docs for a flush to couch.
+Be careful with this if total time to insert all docs per flush > time period of flush then 
+docs to be posted will just keep growing.  
+
+It should be ok for the total time to insert all the bulks to run over the statsd flush period 
+if a sudden rush of metrics arrive once in a while but if this keeps happening i suspect 
+node will run out of memory to hold the backlog. 
 
 
 ##Supported Metrics
@@ -128,7 +154,71 @@ Will add a doc like:
     }
 
 ###Timers & Timer Data
-TODO: Notes on how these are rolled up - add example couch docs
+
+Timers and timer data are combined into one doc - this can be easily 
+modified to create a separate docs for the timer_data by un-commenting 
+the a few lines.
+
+
+    echo "myservice.mytimer:231|ms" | nc -n -w 1 -u 192.168.3.22 8125
+
+Will add a doc like:
+
+    {
+       "_id": "2d0f912baefa5e8c6e131e29c4482e67",
+       "_rev": "1-30071b20880b8f0139a403856e0365d9",
+       "type": "timers",
+       "name": "myservice.mytimer",
+       "durations": [
+           231
+       ],
+       "mean_90": 231,
+       "upper_90": 231,
+       "sum_90": 231,
+       "std": 0,
+       "upper": 231,
+       "lower": 231,
+       "count": 1,
+       "count_ps": 0.1,
+       "sum": 231,
+       "mean": 231,
+       "median": 231,
+       "ts": 1425055422
+    }
+    
+
+If more than one timer is received withing the same flush interval eg:    
+
+    echo "myservice.mytimer:30|ms" | nc -n -w 1 -u 192.168.3.22 8125
+    echo "myservice.mytimer:23|ms" | nc -n -w 1 -u 192.168.3.22 8125
+    echo "myservice.mytimer:51|ms" | nc -n -w 1 -u 192.168.3.22 8125
+
+Will add a doc like:
+
+    {
+       "_id": "2d0f912baefa5e8c6e131e29c44835d1",
+       "_rev": "1-5786babae3d5c82d6511a5ee7770fd86",
+       "type": "timers",
+       "name": "myservice.mytimer",
+       "durations": [
+           23,
+           30,
+           51
+       ],
+       "mean_90": 34.666666666666664,
+       "upper_90": 51,
+       "sum_90": 104,
+       "std": 11.897712198383164,
+       "upper": 51,
+       "lower": 23,
+       "count": 3,
+       "count_ps": 0.3,
+       "sum": 104,
+       "mean": 34.666666666666664,
+       "median": 30,
+       "ts": 1425055602
+    }
+
 
 
 ###Sets 

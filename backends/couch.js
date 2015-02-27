@@ -1,10 +1,6 @@
 
-var nano = require('nano');
 
-var debug = false;
-var id_prefix = '';
-var id_generator = 'couch'; 
-var couchdb = false;
+var nano = require('nano');
 
 var flush_stats = function (timestamp, metrics) {
 
@@ -102,7 +98,7 @@ var flush_stats = function (timestamp, metrics) {
 	       if((err) || !uuids) { 
 			console.log(err); 
                }else{
-		  post_docs(docs,uuids.uuids,timestamp);
+		  post_docs(docs,uuids.uuids,timestamp,0);
 	       }
 	     });
      	}else{
@@ -110,38 +106,61 @@ var flush_stats = function (timestamp, metrics) {
 	    for (var i = 0; i < docs.length; i++) {
 	       uuids.push(uuid_generator(i));
 	    }
-	    post_docs(docs,uuids,timestamp);
+  	    if (debug) console.log('uuids: ' + JSON.stringify(uuids));
+	    post_docs(docs, uuids, timestamp, 0);
      	}
      }
 
-
+     
 };
 
-var post_docs = function(docs,uuids,timestamp) {
-	
-	  if (debug) console.log('uuids: ' + JSON.stringify(uuids));
-	  for(var doc in docs) {
-		docs[doc]._id =  id_prefix + uuids.pop();
-		docs[doc].ts = timestamp;
+
+var post_docs = function(docs,uuids,timestamp,chunk_count) {
+
+//	  for(var doc in docs) {
+//		docs[doc]._id =  id_prefix + uuids.pop();
+//		docs[doc].ts = timestamp;
+//	  }
+
+	  var this_bulk_size = bulk_size;
+	  if ( (docs.length < bulk_size) || (bulk_size == 0) ) {
+		 this_bulk_size = docs.length;
 	  }
+    
+          var chunk = [];        
+          var doc = false;
+	  var i = 0;
+          while(i < this_bulk_size) {
+		doc = docs.pop();
+		doc._id =  id_prefix + uuids.pop();
+		doc.ts = timestamp;
+		chunk.push(doc); 
+		i++;
+          }          
+
 	  if (debug) console.log('docs: ' + JSON.stringify(docs));
 
 	  var bulk = {};
-          bulk.docs = docs;
+          bulk.docs = chunk;
 
 	  var db = nano.use(couchdb);
 
           db.bulk(bulk, '', function(err, ret){
+             chunk_count++;
 	     if((err) || !ret){
 	          console.log('err: ' + JSON.stringify(err));    //send metric ?
                   //need to check though error and see if id collision or something else
 	     }else{
-		  console.log('done: added ' + ret.length + ' docs');  //all done perhaps send out a metric?
+		  console.log('added chunk: ' + chunk_count + ', ' +  ret.length + ' docs'); 
 		  if (debug) console.log('docs: ' + JSON.stringify(ret));
 	     }
 	  });
+	  if(docs.length > 0){
+console.log('Bulk wait:' + bulk_wait);
+		setTimeout( function(){ post_docs(docs,uuids,timestamp,chunk_count); }, bulk_wait );
+	  }
 
-		 // console.log('done: added ' + docs.length + ' docs');  //all done perhaps send out a metric?
+	
 };
 
 
@@ -153,12 +172,28 @@ var status = function(write) {
 };
 
 
+
+
+
+var id_prefix;
+var id_generator;
+var debug;
+var bulk_size;
+var bulk_wait;
+
+var couchdb = false;
+
 exports.init = function(startupTime, config, events) {
 
-  if (config.id_prefix) id_prefix = config.id_prefix
-  if (config.debug)     debug = config.debug;
+  debug = config.debug || false;
 
-  id_generator = config.id_generator || 'cuid';
+
+  id_prefix = config.id_prefix || '';
+  if(id_prefix != '') {
+      console.log('id_prefix: ' + id_prefix);
+  }
+
+  id_generator = config.id_generator || 'couch';
   switch(id_generator) {
 	case 'couch':
             id_generator = 'couch';
@@ -189,7 +224,6 @@ exports.init = function(startupTime, config, events) {
   }
   console.log('using: ' + id_generator + ' for id generation');
 
-
   var couchhost = config.couchhost || 'localhost';
   var couchport = config.couchport || '5984';
   
@@ -200,6 +234,17 @@ exports.init = function(startupTime, config, events) {
   couchdb = config.couchdb;
 
   nano = nano('http://' + couchhost + ':' + couchport);
+
+  if(config.bulk_size == 0) {
+          bulk_size = 0;
+          console.log('bulking disabled');
+  }else{
+	  bulk_size = config.bulk_size || 2500;
+	  bulk_wait = config.bulk_wait || 50;
+          console.log('bulk_size: ' + bulk_wait);
+          console.log('bulk_wait: ' + bulk_wait);
+  }
+
 
   events.on('flush', flush_stats);
   events.on('status', status );
